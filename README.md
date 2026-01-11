@@ -1,69 +1,46 @@
-Arena — MVP v1
+Arena (MVP v1)
 
-Arena is a minimal, execution-first system designed to force commitment through daily check-ins.
+Arena is a minimal command-line tool that enforces daily execution accountability through a single binary check-in.
 
-It is not a productivity app.
-It is not a habit tracker.
-It is a pressure system.
+Purpose
 
-Arena exists to answer one question, every day:
+Arena exists to answer one question per day:
 
-Did you ship today?
+**Did you ship today?**
 
-Philosophy
+It does not track habits, streaks, or productivity metrics.
+It records execution.
 
-Most people fail not because they lack plans, ideas, or intelligence —
-but because they exit midway when uncertainty rises.
+Features (v1)
 
-Arena is built on three principles:
+One-time user setup
 
-Binary over vague – yes or no, shipped or didn’t
+Forced specificity for goals
 
-Execution over intention – actions are logged, not plans
+Daily yes/no check-in
 
-Low friction – no UI, no notifications, no motivation loops
+One check-in per day enforced
 
-This system is intentionally boring.
-Boredom removes excuses.
+Local JSON persistence
 
-What MVP v1 Does
+Zero UI, zero notifications
 
-Captures a user’s name and 7-day shipping goal (once)
-
-Rejects vague goals and forces specificity
-
-On every run:
-
-asks a single question: Did you ship today?
-
-records a yes/no response
-
-Prevents multiple check-ins on the same day
-
-Persists all data locally as JSON
-
-That’s it.
-
-What MVP v1 Does NOT Do
-
-No streaks
+Non-Features (by design)
 
 No reminders
 
 No gamification
 
-No rewards
+No streaks
 
-No punishment
+No rewards or penalties
 
-No UI
-
-No cloud
+No cloud sync
 
 No analytics
 
-Arena does not motivate you.
-It records reality.
+Arena does not motivate.
+It logs reality.
 
 Project Structure
 arena/
@@ -77,70 +54,27 @@ arena/
 
 How It Works
 
-On first run:
+On startup, Arena checks for an existing user.
 
-Arena checks for an existing user
+If no user exists, setup is triggered.
 
-If none exists, setup is triggered
+Setup captures name and a concrete goal.
 
-Setup:
+On subsequent runs, Arena performs a daily check-in.
 
-Captures name and goal
+The result is persisted locally.
 
-Loops until the goal is specific
+If Arena is not run, no check-in is recorded.
 
-On subsequent runs:
-
-Arena triggers daily check-in
-
-Records whether you shipped or not
-
-If you don’t run Arena, nothing happens.
-Silence is treated as absence.
-
-How to Run
+Usage
 python arena.py
 
+Data Storage
 
-That’s the entire interface.
+All data is stored locally as JSON:
 
-Intended User
+data/user.json — user information and goal
 
-Arena v1 is built for:
+data/checkins.json — daily check-in history
 
-builders
-
-founders
-
-engineers
-
-anyone trying to break the pattern of quitting midway
-
-If you want encouragement, this tool is not for you.
-If you want honest pressure, it is.
-
-Status
-
-Version: MVP v1
-
-State: Functional
-
-Focus: Proving behavioral change through completion
-
-Future versions may explore:
-
-consequence systems
-
-visibility
-
-escalation mechanics
-
-Only after sustained use.
-
-Final Note
-
-Arena is not meant to scale yet.
-It is meant to work.
-
-If you ship more because of it, the system has succeeded.
-If you don’t, the data is still valid.
+No external services are used.
