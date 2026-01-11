@@ -7,10 +7,16 @@ def run_check():
     today = datetime.today().isoformat()
 
     if os.path.exists(checkin_file):
-        with open(checkin_file, "r") as f:
-            checkins = json.load(f)
+        try:
+            with open(checkin_file, "r") as f:
+                checkins = json.load(f)
+        except json.JSONDecodeError:
+            checkins = []
+        
     else:
-        checkins =[]
+        checkins = []
+
+
 
     #Prevent multiple check-ins per day
     for entry in checkins:
