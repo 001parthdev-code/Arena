@@ -1,80 +1,179 @@
-Arena (MVP v1)
+Arena v1 — A Commitment Enforcement System
+Overview
 
-Arena is a minimal command-line tool that enforces daily execution accountability through a single binary check-in.
+Arena is a minimal command-line system designed to detect and record execution, not intention.
 
-Purpose
+It exists to eliminate a common failure mode in builders:
+starting strongly and exiting silently midway.
 
-Arena exists to answer one question per day:
+Arena treats execution as a systems problem, not a motivation problem.
+Its primary objective is behavioral honesty, not productivity optimization.
 
-**Did you ship today?**
+Core Principle
 
-It does not track habits, streaks, or productivity metrics.
-It records execution.
+Most personal execution failures are not caused by lack of skill or planning —
+they are caused by absence of hard checkpoints.
 
-Features (v1)
+Arena enforces a single invariant:
 
-One-time user setup
+Every day must resolve to a binary outcome.
 
-Forced specificity for goals
+No streaks.
+No encouragement.
+No abstraction.
 
-Daily yes/no check-in
+System Model
 
-One check-in per day enforced
+Arena operates as a simple, deterministic loop:
 
-Local JSON persistence
+User State
+↓
+Setup (one-time)
+↓
+Daily Check-in
+↓
+Persistent Record
 
-Zero UI, zero notifications
+If Arena is not run, no state is updated.
+Silence is treated as absence, not success.
 
-Non-Features (by design)
+Functional Scope (v1)
 
-No reminders
+Arena v1 performs exactly three functions:
 
-No gamification
+User Initialization
 
-No streaks
+Captures user identity
 
-No rewards or penalties
+Captures a concrete short-horizon goal
 
-No cloud sync
+Rejects vague or non-ship-oriented goals
 
-No analytics
+Daily Execution Check
 
-Arena does not motivate.
-It logs reality.
+Prompts a single binary question: Did you ship today?
 
-Project Structure
+Enforces one check-in per calendar day
+
+Rejects ambiguous input
+
+Persistence
+
+Records all data locally
+
+Preserves historical truth
+
+Performs no aggregation or interpretation
+
+Explicit Non-Goals
+
+Arena v1 intentionally does not provide:
+
+Motivation
+
+Reminders
+
+Streaks
+
+Rewards or penalties
+
+Analytics
+
+Visualization
+
+Cloud sync
+
+Arena does not attempt to improve behavior.
+It records behavior.
+
+Architecture
+
+Arena is implemented as a small set of isolated modules with explicit responsibilities.
+
 arena/
-├── arena.py        # Entry point and routing
-├── setup.py        # First-time user setup
-├── checkin.py      # Daily execution check-in
+├── arena.py        # Entry point and control flow
+├── setup.py        # One-time user initialization
+├── checkin.py      # Daily execution check
 ├── data/
 │   ├── user.json
 │   └── checkins.json
 └── README.md
 
-How It Works
 
-On startup, Arena checks for an existing user.
+Each module performs exactly one role.
+Cross-responsibility behavior is treated as a design error.
 
-If no user exists, setup is triggered.
+Data Contracts
 
-Setup captures name and a concrete goal.
+user.json
 
-On subsequent runs, Arena performs a daily check-in.
+Immutable after creation
 
-The result is persisted locally.
+Stores user identity and declared goal
 
-If Arena is not run, no check-in is recorded.
+checkins.json
+
+Append-only
+
+One record per calendar day
+
+Binary execution state (yes / no)
+
+No data is inferred, derived, or corrected post hoc.
 
 Usage
 python arena.py
 
-Data Storage
 
-All data is stored locally as JSON:
+Arena only operates when explicitly invoked.
 
-data/user.json — user information and goal
+Intended Use
 
-data/checkins.json — daily check-in history
+Arena is built for individuals who:
 
-No external services are used.
+build projects independently
+
+tend to exit midway under uncertainty
+
+value honest feedback over encouragement
+
+want execution pressure without noise
+
+This system assumes intrinsic motivation.
+It does not attempt to create it.
+
+Trust Status (v1)
+
+⚠️ Arena v1 is behaviorally complete but intentionally minimal.
+
+Known limitations:
+
+No escalation for repeated non-execution
+
+No visibility into trends or streaks
+
+No consequence layer beyond recording
+
+These limitations are deliberate.
+Future mechanisms will only be added after sustained real-world use.
+
+Project Intent
+
+Arena was built to:
+
+externalize commitment
+
+reduce silent self-betrayal
+
+convert intention into observable data
+
+train completion as a repeatable behavior
+
+This repository prioritizes truthful logging over feature completeness.
+
+Final Note
+
+Arena v1 is not a product.
+It is a constraint.
+
+If it feels uncomfortable, it is functioning correctly.
